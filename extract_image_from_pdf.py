@@ -27,8 +27,15 @@ layout = [
         )],
         [sg.pin(sg.Text(None, key='results', visible=False))],
     ]
+SCALE_FACTOR=1.25
+sg.set_options(scaling=SCALE_FACTOR)
+window = sg.Window('',
+                   layout,
+                   no_titlebar=True,
+                   keep_on_top=True,
+                   grab_anywhere=True,
+                   resizable=False)
 
-window = sg.Window('', layout, no_titlebar=True, keep_on_top=True, grab_anywhere=True)
 progress_bar = window['progress_bar']
 object_count = window['xref_count']
 image_count = window['image_count']
@@ -86,16 +93,23 @@ def recover_pix(doc, xref: int, item: dict):
 
 def reset_ui():
     results.update(visible=False)
-    image_count.update(visible=False)
-    browse_key.update(disabled=True)
-    start_key.update(disabled=True)
-    exit_key.update(text='Cancel')
-
-def update_ui(message: str):
-    results.update(message, visible=True)
-    browse_key.update(disabled=False)
     start_key.update(disabled=False)
-    exit_key.update(text='Exit')
+    browse_key.update(disabled=False)
+    object_count.update(visible=False)
+    image_count.update(visible=False)
+    progress_bar.update(visible=False)
+
+def toggle_ui():
+    start_key.update(disabled=not start_key.Disabled)
+    browse_key.update(disabled=not browse_key.Disabled)
+    object_count.update(visible=not object_count.visible)
+    progress_bar.update(visible=not progress_bar.visible)
+
+def update_ui(message: str=None):
+    results.update(message, visible=True)
+    start_key.update(disabled=False)
+    browse_key.update(disabled=False)
+    exit_key.update('Exit')
 
 def save_file(filepath: str, file_extension: str, file_data: bytes):
     with open(f"{filepath}.{file_extension}", 'wb', encoding=None) as file:
@@ -103,22 +117,20 @@ def save_file(filepath: str, file_extension: str, file_data: bytes):
 
 while True:
     event, values = window.read()
-    t0 = time()
     reset_ui()
+    t0 = time()
 
     if event == 'exit_button':
         raise SystemExit()
 
     if not (pdf_filename := values.get('file_path')):
-        reset_ui()
         continue
 
     doc = fitz.open(pdf_filename)
     xref_count = doc.xref_length() # length of objects table
     img_count = 0
-    progress_bar.update(visible=True)
-    object_count.update(visible=True)
-    results_message = None
+    toggle_ui()
+    exit_key.update('Cancel')
 
     for xref in range(1, xref_count): # skip the 1st entry (object 0) which is reserved
         event, values = window.read(timeout=1) # by setting a timeout, we are still able to interact with the UI during image processing
@@ -126,7 +138,7 @@ while True:
         object_count.update(f"Scanning {xref+1} of {xref_count} objects")
 
         if event == 'exit_button':
-            results_message = "Job was interrupted."
+            update_ui("Job was interrupted.")
             break
 
         # If it's not an image we skip processing for this object
@@ -177,11 +189,6 @@ while True:
                 pix = fitz.Pixmap(fitz.csRGB, pix0) # convert to RGB colorspace
                 img_bytes = pix.tobytes(img_ext) # return the byte data
         save_file(img_filename, img_ext, img_bytes)
-
     t1 = time()
-    if not image_count.visible:
-        image_count.update("No images found", visible=True)
-
-    if results_message is None:
-        results_message = f"Finished scanning and extracting images. Job took {t1 - t0:.2f} seconds."
-    update_ui(results_message)
+    if event != 'exit_button':
+        update_ui(f"Finished scanning and extracting images. Job took {t1 - t0:.2f} seconds.")

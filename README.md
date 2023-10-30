@@ -16,6 +16,6 @@ To compile as a standalone executable using PyInstaller:
 *Note:* Code may be unoptimized and contain bugs.  
 ## How to run
 1. Clone the project:  
-`git clone https://github.com/Captain-Chen/extract_image_from_pdf.git`  
+`git clone https://github.com/Captain-Chen/PDF_Image_Extractor.git`  
 2. Run the script:  
 `python extract_image_from_pdf.py`
