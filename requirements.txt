@@ -1,3 +1,4 @@
-PyMuPDF==1.23.21
-PyMuPDFb==1.23.9
-PySimpleGUI==4.60.5
+FreeSimpleGUI==5.2.0.post1
+pyasn1==0.6.1
+PyMuPDF==1.26.1
+rsa==4.9.1

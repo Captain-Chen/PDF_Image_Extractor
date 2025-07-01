@@ -3,7 +3,7 @@
 ## What is this?
 ![PDF Image Extractor](preview.png)
 * A simple script using the [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/) wrapper library to extract images.
-* Has a graphical UI using [PySimpleGUI](https://www.pysimplegui.org/en/latest/call%20reference/).
+* Has a graphical UI using [FreeSimpleGUI](https://github.com/spyoungtech/FreeSimpleGUI).
 * Can be built as a standalone executable using [PyInstaller](https://pyinstaller.org/en/stable/).
 
 ## Why?
@@ -29,5 +29,5 @@ I read a lot of PDFs that often contain beautiful photographs of plants that I w
 
 ### Dependencies
 * [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/installation.html) v1.23.5+
-* [PySimpleGUI](https://www.pysimplegui.org/en/latest/#install) v4.60.5+
+* [FreeSimpleGUI](https://github.com/spyoungtech/FreeSimpleGUI) 
 * [PyInstaller](https://pyinstaller.org/en/stable/installation.html) (Optional)

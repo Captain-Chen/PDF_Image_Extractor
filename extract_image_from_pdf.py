@@ -1,7 +1,7 @@
 import os
 import sys
 import fitz
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 from time import time
 
 EXTRACTED_IMAGES_DIRECTORY = 'extracted_images'
