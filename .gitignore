@@ -1,6 +1,7 @@
 # Don't track these folders
 .vscode
 extracted_images/
+__pycache__/
 
 # Don't track PyInstaller file output
 dist/

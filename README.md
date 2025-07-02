@@ -28,6 +28,6 @@ I read a lot of PDFs that often contain beautiful photographs of plants that I w
 *Note:* Code may be unoptimized and contain bugs.
 
 ### Dependencies
-* [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/installation.html) v1.23.5+
+* [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/installation.html) 
 * [FreeSimpleGUI](https://github.com/spyoungtech/FreeSimpleGUI) 
 * [PyInstaller](https://pyinstaller.org/en/stable/installation.html) (Optional)
